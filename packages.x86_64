@@ -1,4 +1,15 @@
-arch-install-scripts
+# Graphical Environment
+xorg
+openbox
+tint2
+network-manager-applet
+lightdm
+lightdm-gtk-greeter
+
+# Drivers
+virtualbox-guest-dkms
+
+# Base
 b43-fwcutter
 broadcom-wl
 btrfs-progs
