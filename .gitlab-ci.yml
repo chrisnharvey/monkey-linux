@@ -1,15 +1,21 @@
 image: registry.gitlab.com/chrisnharvey/monkey-linux:latest
-    
+
 build:
   stage: build
   
   before_script:
-    - cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
-    - rankmirrors -n 3 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
+     - apt-get update
+     - docker pull registry.gitlab.com/chrisnharvey/monkey-linux:latest
+     - docker run --name monkey-linux -itd --privileged -v ${PWD}:/mnt registry.gitlab.com/chrisnharvey/monkey-linux:latest /bin/bash
+     - docker exec monkey-linux cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+     - docker exec monkey-linux sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist.backup
+     - docker exec monkey-linux /bin/sh -c "rankmirrors -n 6 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist"
+     - docker exec monkey-linux pacman -S archiso cdrkit --noconfirm
+     - docker exec monkey-linux mkdir /run/shm
 
   script:
-    - ./build.sh -v
-    
+    - docker exec monkey-linux /bin/sh -c "cd /mnt && ./build.sh -v"
+
   artifacts:
     paths:
       - out/
