@@ -1,4 +1,4 @@
-image: registry.gitlab.com/chrisnharvey/monkey-linux:latest
+image: gitlab/dind
 
 build:
   stage: build
