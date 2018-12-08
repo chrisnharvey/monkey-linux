@@ -2,6 +2,10 @@ image: registry.gitlab.com/chrisnharvey/monkey-linux:latest
     
 build:
   stage: build
+  
+  before_script:
+    - cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+    - rankmirrors -n 3 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
 
   script:
     - ./build.sh -v
