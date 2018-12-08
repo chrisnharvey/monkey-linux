@@ -1,0 +1,7 @@
+image: registry.gitlab.com/chrisnharvey/monkey-linux:latest
+    
+build:
+  stage: build
+
+  script:
+    - ./build.sh
